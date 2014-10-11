@@ -13,14 +13,7 @@ $(document).ready(function(){
 		}
 	});
 
-	// PrivatePub.subscribe('/messages/new', function(data, channel) {
-	// 	debugger;
-	// chatBox.scrollTop(chatBox.prop("scrollHeight"));
 
- //  	chatBox.append('<div>'+data.message+'</div>');
- //  	// scrolls to the bottom of the div to display the next message
-	// 	chatBox.scrollTop(chatBox.prop("scrollHeight"));
-	// });
 
 });
 

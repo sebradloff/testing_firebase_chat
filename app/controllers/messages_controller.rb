@@ -7,9 +7,10 @@ class MessagesController < ApplicationController
 
 	def create
 		@message = Message.create(content: message_attributes[:content])
-		p '*'*100
-		p @message
-		# PrivatePub.publish_to("/messages/new", "alert('#{@message.content}');")
+		
+	 	respond_to do |format|
+      format.json { render json: @message }
+    end
 
 	end
 
@@ -18,5 +19,6 @@ class MessagesController < ApplicationController
 	def message_attributes
     params.require(:message).permit(:content)
   end
+
 
 end
