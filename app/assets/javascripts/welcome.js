@@ -10,10 +10,10 @@ $(document).ready(function() {
     });
 
     myFirebaseRef.once('value', function(snapshot) {
-        var message = snapshot.val();
-        if (message == null){
+        if (snapshot.val() == null) {
         	$('.chat-messages-container').append('<div>Be the first to comment!</div>');
       	} else{
+      		var message = snapshot.val();
       		$('.new-message').val('');
 	        $('.chat-messages-container').append('<div>' + message.content + '</div>');
 	        var chatBox = $('.chat-messages-container');
