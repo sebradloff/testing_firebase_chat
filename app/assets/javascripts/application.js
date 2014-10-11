@@ -15,3 +15,5 @@
 //= require turbolinks
 //= require private_pub
 //= require_tree .
+//= require websocket_rails/main
+
