@@ -1,38 +1,84 @@
-$(document).ready(function(){
-	// automatically be at the bottom of the chat when you login to the page
-	var chatBox = $('.chat-messages-container');
-	chatBox.scrollTop(chatBox.prop("scrollHeight"));
+$(document).ready(function() {
+    var myFirebaseRef = new Firebase('https://scorching-torch-5624.firebaseio.com/');
+    // automatically be at the bottom of the chat when you login to the page
+    var chatBox = $('.chat-messages-container');
 
-	$('.send-button').on('click',function(){
-		sendMessage();
-	});
+    chatBox.scrollTop(chatBox.prop("scrollHeight"));
 
-	$(document).keypress(function(event){
-		if (event.which == 13){
-			sendMessage();
-		}
-	});
+    $('.send-button').on('click', function() {
+        // sendMessage();
+    });
+
+    myFirebaseRef.once('value', function(snapshot) {
+        var message = snapshot.val();
+        if (message == null){
+        	$('.chat-messages-container').append('<div>Be the first to comment!</div>');
+      	} else{
+      		$('.new-message').val('');
+	        $('.chat-messages-container').append('<div>' + message.content + '</div>');
+	        var chatBox = $('.chat-messages-container');
+	        chatBox.scrollTop(chatBox.prop("scrollHeight"));
+      	}
+    });
+
+    myFirebaseRef.on('child_added', function(snapshot) {
+        var message = snapshot.val();
+        $('.new-message').val('');
+        $('.chat-messages-container').append('<div>' + message.content + '</div>');
+        var chatBox = $('.chat-messages-container');
+        chatBox.scrollTop(chatBox.prop("scrollHeight"));
+    });
+
+    $(document).keypress(function(event) {
+
+        if (event.which == 13) {
+            var message = $('.new-message').val();
+
+
+            // myFirebaseRef.remove();
+            myFirebaseRef.push({
+                content: message
+            });
+
+        }
+    });
+
 
 
 
 });
 
-function sendMessage(){
-	var message = $('.new-message').val();
+function sendMessage() {
+    var message = $('.new-message').val();
 
-	var request = $.ajax({
-		url: '/messages',
-		type: 'POST',
-		data: {message: {content: message}},
-		dataType: 'json'
-	});
+    var myFirebaseRef = new Firebase('https://scorching-torch-5624.firebaseio.com/');
+    // myFirebaseRef.remove();
+    myFirebaseRef.push({
+        content: message
+    });
 
-	request.done(function(response){
-		$('.new-message').val('');
-		$('.chat-messages-container').append('<div>'+response.content+'</div>');
 
-		// scrolls to the bottom of the div to display the next message
-		var chatBox = $('.chat-messages-container');
-		chatBox.scrollTop(chatBox.prop("scrollHeight"));
-	});
+    myFirebaseRef.on('child_added', function(snapshot) {
+        var message = snapshot.val();
+        $('.new-message').val('');
+        $('.chat-messages-container').append('<div>' + message.content + '</div>');
+        var chatBox = $('.chat-messages-container');
+        chatBox.scrollTop(chatBox.prop("scrollHeight"));
+    });
+
+    // var request = $.ajax({
+    // 	url: '/messages',
+    // 	type: 'POST',
+    // 	data: {message: {content: message}},
+    // 	dataType: 'json'
+    // });
+
+    // request.done(function(response){
+    // 	$('.new-message').val('');
+    // 	$('.chat-messages-container').append('<div>'+response.content+'</div>');
+
+    // 	// scrolls to the bottom of the div to display the next message
+    // 	var chatBox = $('.chat-messages-container');
+    // 	chatBox.scrollTop(chatBox.prop("scrollHeight"));
+    // });
 }
