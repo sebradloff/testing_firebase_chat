@@ -1,0 +1,17 @@
+<h1>Basic Chat App</h1>
+
+
+<div class="chat-messages-container">
+	<%= render @messages %>
+</div>
+<div class="new-message-container">
+	<%= form_for Message.new, remote: true do |f| %>
+  <%= f.text_field :content %>
+  <%= f.submit "Send" %>
+<% end %>
+</div>
+
+	<%= subscribe_to '/messages/new' %>
+
+
+

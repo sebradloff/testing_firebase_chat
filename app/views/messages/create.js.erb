@@ -1,0 +1,6 @@
+<% publish_to "/messages/new" do %>
+	debugger;
+	var chatBox = $('.chat-messages-container');
+  $(".chat-messages-container").append("<%= j render(@message) %>");
+  chatBox.scrollTop(chatBox.prop("scrollHeight"));
+<% end %>
