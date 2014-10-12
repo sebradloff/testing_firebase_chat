@@ -1,0 +1,6 @@
+<h1>Chatrooms available</h1>
+
+
+<% @chatrooms.each do |chatroom| %>
+	<h3><a href='/chat_rooms/<%= chatroom.id %>'><%= chatroom.id %></a></h3>
+<% end %>
